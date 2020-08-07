@@ -14,7 +14,7 @@ app.get('/',(req,res)=>{
         CurrentYear: new Date().getFullYear()
     });
 });
-var input,UploadName,UploadBody,UpdateNameBefore,UpdateNameAfter, UpdateBodyAfter,DeleteName,SearchName;
+var UploadName,UploadBody,UpdateNameBefore,UpdateNameAfter, UpdateBodyAfter,DeleteName,SearchName, message;
 app.post('/',(req,res)=>{
     UploadName=req.body.UploadName;
     UploadBody=req.body.UploadBody;
@@ -23,85 +23,105 @@ app.post('/',(req,res)=>{
     UpdateBodyAfter=req.body.UpdateBodyAfter;
     DeleteName=req.body.DeleteName;
     SearchName=req.body.SearchName;
-    console.log(req.body.UploadName);
-    if(UploadName !=undefined && UploadBody==undefined)
+    // console.log(req.body.UploadName);
+    if(UploadName !=undefined && UploadBody!=undefined)
         {
-        input=Post;
+        var test=library.UploadBook(UploadName, UploadBody);  
+        console.log(UploadName);
+        console.log(UploadBody);
+        if (test==0)
+            {
+            console.log('Book already Present');
+            message='Book already Present';
+            }
+        else    
+            {
+            console.log('Book Uploaded');
+            message='Book Uploaded';;
+            }
         }
-    if(DeleteName !=undefined )
+    else if(DeleteName !=undefined )
         {
-        input=Delete;
+        var test=library.DeleteBook(DeleteName);
+        if (test==0)
+            {
+            console.log('Book Not found');
+            message='Book Not found';
+            }
+        else    
+            {
+            console.log('Book deleted');
+            message='Book deleted';
+            } 
         }
-    if(SearchName !=undefined )
+    else if(SearchName !=undefined )
         {
-        input=Get;
+        var Book=library.GetBook(SearchName);
+        if(Book.lenght==0)
+            {
+            console.log('Book not found');
+            message='Book not found';
+            }
+        else    
+            {
+            console.log('Book  found');
+            console.log(Book);
+            message='Book  found';
+            }
+
         }
-    if(UpdateNameBefore !=undefined && UpdateNameAfter==undefined &&  UpdateBodyAfter!=undefined)
+    else if(UpdateNameBefore !=undefined && UpdateNameAfter!=undefined &&  UpdateBodyAfter!=undefined)
         {
-        input=Put;
-        }    
-    res.render('inputPage.hbs',{
-        CurrentYear: new Date().getFullYear()
+        BookUpdated={
+            BookName:UpdateNameAfter,
+            Body: UpdateBodyAfter
+            }
+        var test=library.UpdateBook(UpdateNameBefore,BookUpdated);
+        if (test==0)
+            {
+            console.log('Book Not found');
+            message='Book Not found';
+            }
+        else    
+            {
+            console.log('Book Updated');
+            message='Book Updated';
+            }
+        }   
+    else 
+        {
+        console.log('Option not defined ');
+        message='Option not defined ';
+        }
+    res.render('response.hbs',{
+        CurrentYear: new Date().getFullYear(),
+        FlagValue:message,
+        Message:message
     });
 });
 
-if (input=='Get')
-{
-var Book=library.GetBook(SearchName);
-if(Book.lenght==0)
-    {
-    console.log('Book not found');
-    }
-else    
-    {
-    console.log('Book  found');
-    console.log(Book);
-    }
-}
-else  if(input=='Post')
-{
-var test=library.UploadBook(UploadName, UploadBody);  
-if (test==0)
-    {
-    console.log('Book already Present');
-    }
-else    
-    {
-    console.log('Book Uploaded');
-    }
-}
-else if(input=='Put')
-{
-BookUpdated={
-BookName:UpdateNameAfter,
-Body: UpdateBodyAfter
-}
-var test=library.UpdateBook(UpdateNameBefore,BookUpdated);
-if (test==0)
-    {
-    console.log('Book Not found');
-    }
-else    
-    {
-    console.log('Book Updated');
-    }
-}
-else  if(input=='Delete')
-{
-var test=library.DeleteBook(DeleteName);
-if (test==0)
-    {
-    console.log('Book Not found');
-    }
-else    
-    {
-    console.log('Book deleted');
-    } 
-}
-else    
-{
-console.log('Option not defined ');
-}
+// input ='Get';
+// console.log(input);
+// if (input=='Get')
+// {
+
+// }
+// else  if(input=='Post')
+// {
+
+// }
+// else if(input=='Put')
+// {
+
+// }
+// else  if(input=='Delete')
+// {
+
+// }
+// else    
+// {
+
+// }
 
 app.listen(port,()=>{
     console.log(`Open the port: ${port}`);
