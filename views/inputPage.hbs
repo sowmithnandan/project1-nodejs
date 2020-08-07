@@ -1,24 +1,32 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <h>This is a Library Book Management Website</h>
+        <h>This is a Library Books Management Website</h>
     </head>
     <body>
         <p>Upload  book </p>
-        <input type="text" placeholder="Bookname" name= "UploadName"> 
-        <input type="text" placeholder="Bookbody" name= "UploadBody">
-        <button onclick="" >Upload</button>
+        <form action="/" method="POST"> 
+        <input type="text" placeholder="Bookname" name= "UploadName"  > 
+        <input type="text" placeholder="Bookbody" name= "UploadBody" >
+        <button  >Upload</button>
+        </form >
         <p>Update  book </p>
-        <input type="text" placeholder="Book name before"> 
-        <input type="text" placeholder="Book name to after">
-        <input type="text" placeholder="Bookbody">
-        <button onclick="" >Update</button>
+        <form action="/" method="POST"> 
+        <input type="text" placeholder="Book name before" name= "UpdateNameBefore"> 
+        <input type="text" placeholder="Book name to after" name= "UpdateNameAfter">
+        <input type="text" placeholder="Bookbody" name= "UpdateBodyAfter">
+        <button  >Update</button>
+        </form>
         <p>Delete</p>
-        <input type="text" placeholder="Bookname to be deleted"> 
-        <button onclick="" >Upload</button>
+        <form action="/" method="POST">
+        <input type="text" placeholder="Bookname to be deleted" name= "DeleteName"> 
+        <button  >Upload</button>
+        </form>
         <p>Search</p>
-        <input type="text" placeholder="Bookname to be searched"> 
-        <button onclick="" >Upload</button>
+        <form action="/" method="POST">
+        <input type="text" placeholder="Bookname to be searched" name= "SearchName"> 
+        <button  >Upload</button>
+        </form>
     </body>
     <footer>
         <p><b> Copyright</b> -Sowmith Nandan and Co {{CurrentYear}} </p>
