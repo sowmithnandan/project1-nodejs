@@ -1,4 +1,4 @@
-library=require('./library/librarian.js');
+library=require('./library/librarian.js');//Better to write some comments to understand stuff later 
 bodyParser=require('body-parser')
 var express=require('express');
 
@@ -58,7 +58,7 @@ app.post('/',(req,res)=>{
             });    
             if(array.length==1)
                 {
-                res.render('inputPage.hbs')
+                res.redirect('/Main')
                 }
             else    
                 {
