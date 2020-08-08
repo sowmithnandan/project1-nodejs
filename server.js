@@ -23,35 +23,75 @@ app.get('/Main',(req,res)=>{
     });
 });
 var UploadName,UploadBody,UpdateNameBefore,UpdateNameAfter, UpdateBodyAfter,DeleteName,SearchName, message,UserName,Password;
-
+var NewUser={
+    UserName:'Sowmith',
+    Password:'pygame'
+}
+var NewUserArray=[];
+NewUserArray.push(NewUser);
+fs.writeFileSync('Users.json',JSON.stringify(NewUserArray));
 app.post('/',(req,res)=>{
-    var Users,array;
+    var Users,array,value;
     UserName=req.body.UserName;
     Password=req.body.Password;
-    console.log(UserName);
-    console.log(Password);
-    try {
-        Users=JSON.parse(fs.readFileSync('Users.json'));
-        array=Users.filter((User)=>{
-            if(User.UserName==UserName && User.Password==Password)
-                {
-                return 1;
-                }
-            return 0;
-        });    
-        if(array.length==1)
-            {
-            res.render('IndexPage.hbs')
-            }
-        else    
-            {
-            res.render('NotregisteredUser.hbs')
-            }
-    }
-    catch(e)
+    // console.log(req.body.Login);
+    // console.log(req.body.Signin);
+    if(req.body.Login==undefined)
         {
-        res.render('NotregisteredUser.hbs')
-        }    
+        value=1;
+        }
+    if(req.body.Signin==undefined)
+        {
+        value=2;
+        }
+    console.log(value);
+    if(value==2)
+        {
+        try {
+            Users=JSON.parse(fs.readFileSync('Users.json'));
+            array=Users.filter((value,index)=>{
+                if(value.UserName==UserName && value.Password==Password)
+                    {
+                    return 1;
+                    }
+                return 0;
+            });    
+            if(array.length==1)
+                {
+                res.render('inputPage.hbs')
+                }
+            else    
+                {
+                res.render('NotregisteredUser.hbs')
+                }
+        }
+        catch(e)
+            {
+            console.log('In catch loop');
+            console.log(e);
+            res.render('NotregisteredUser.hbs')
+            }    
+        }
+    else    
+        {
+        try{
+        NewUser={
+            UserName:UserName,
+            Password:Password
+            }
+        var NewUserArray;
+        NewUserArray=JSON.parse(fs.readFileSync('Users.json'));
+        NewUserArray.push(NewUser);
+        console.log(NewUserArray);
+        fs.writeFileSync('Users.json',JSON.stringify(NewUserArray));
+        res.render('SignInComplete.hbs');
+        }
+        catch(e)
+            {
+            console.log(e);
+            res.render('SignInIncomplete.hbs');
+            }
+        }
 });
 app.post('/Main',(req,res)=>{
     UploadName=req.body.UploadName;

@@ -5,34 +5,38 @@
     </head>
     <body>
         <p>Upload  book </p>
-        <form action="/" method="POST"> 
+        <form action="/Main" method="POST"> 
         <input type="text" placeholder="Bookname" name= "UploadName"  > 
         <input type="text" placeholder="Bookbody" name= "UploadBody" >
         <button  >Upload</button>
         </form >
         <p>Update  book </p>
-        <form action="/" method="POST"> 
+        <form action="/Main" method="POST"> 
         <input type="text" placeholder="Book name before" name= "UpdateNameBefore"> 
         <input type="text" placeholder="Book name to after" name= "UpdateNameAfter">
         <input type="text" placeholder="Bookbody" name= "UpdateBodyAfter">
         <button  >Update</button>
         </form>
         <p>Delete</p>
-        <form action="/" method="POST">
+        <form action="/Main" method="POST">
         <input type="text" placeholder="Bookname to be deleted" name= "DeleteName"> 
         <button  >Upload</button>
         </form>
         <p>Search</p>
-        <form action="/" method="POST">
+        <form action="/Main" method="POST">
         <input type="text" placeholder="Bookname to be searched" name= "SearchName"> 
         <button  >Upload</button>
         </form>
+        <a href='/'>Login Page</a>
     </body>
     <footer>
         <p><b> Copyright</b> -Sowmith Nandan and Co {{CurrentYear}} </p>
     </footer>
 </html>
 <script>
+// function UploadFunction()   
+//     {
 
+//     }
 document.bgColor ="lightblue";
 </script>
