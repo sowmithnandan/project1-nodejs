@@ -8,14 +8,52 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })); 
 var port=process.env.PORT || 3000;
 app.set('view engine','hbs');
+
 app.get('/',(req,res)=>{
+   
+    res.render('LoginPage.hbs',{
+        CurrentYear: new Date().getFullYear()
+    });
+});
+
+app.get('/Main',(req,res)=>{
    
     res.render('inputPage.hbs',{
         CurrentYear: new Date().getFullYear()
     });
 });
-var UploadName,UploadBody,UpdateNameBefore,UpdateNameAfter, UpdateBodyAfter,DeleteName,SearchName, message;
+var UploadName,UploadBody,UpdateNameBefore,UpdateNameAfter, UpdateBodyAfter,DeleteName,SearchName, message,UserName,Password;
+
 app.post('/',(req,res)=>{
+    var Users,array;
+    UserName=req.body.UserName;
+    Password=req.body.Password;
+    console.log(UserName);
+    console.log(Password);
+    try {
+        Users=JSON.parse(fs.readFileSync('Users.json'));
+        array=Users.filter((User)=>{
+            if(User.UserName==UserName && User.Password==Password)
+                {
+                return 1;
+                }
+            return 0;
+        });    
+        if(array.length==1)
+            {
+            res.render('IndexPage.hbs')
+            }
+        else    
+            {
+            res.render('NotregisteredUser.hbs')
+            }
+    }
+    catch(e)
+        {
+        res.render('NotregisteredUser.hbs')
+        }    
+});
+app.post('/Main',(req,res)=>{
     UploadName=req.body.UploadName;
     UploadBody=req.body.UploadBody;
     UpdateNameBefore=req.body.UpdateNameBefore;
